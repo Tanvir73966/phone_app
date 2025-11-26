@@ -1,0 +1,21 @@
+lib/
+│
+├── main.dart
+├── models/
+│   ├── contact_model.dart
+│   └── call_model.dart
+├── providers/
+│   ├── contacts_provider.dart
+│   └── calls_provider.dart
+├── screens/
+│   ├── contacts_screen.dart
+│   ├── calls_screen.dart
+│   ├── dial_pad_screen.dart
+│   └── incoming_call_overlay.dart
+├── widgets/
+│   ├── contact_card.dart
+│   ├── call_log_card.dart
+│   └── dial_pad.dart
+├── utils/
+│   ├── permissions.dart
+│   └── google_contacts_sync.dart

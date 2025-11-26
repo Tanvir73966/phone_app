@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flutter (Default Device)",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Flutter Medium Phone",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "medium_phone" 
+        },
+        {
+            "name": "Flutter Emulator Pixel 7",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554"
+        },
+        {
+            "name": "Flutter iOS Simulator",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "ios" 
+        }
+    ]
+}
