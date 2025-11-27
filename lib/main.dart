@@ -9,7 +9,7 @@ import 'screens/contacts_screen.dart';
 import 'screens/calls_screen.dart';
 import 'screens/dial_pad_screen.dart';
 
-import 'services/call_service.dart'; // Important
+import 'services/call_service.dart';
 
 void main() {
   runApp(MyApp());
@@ -45,6 +45,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  bool _permissionsGranted = false;
+  bool _isDefaultDialer = false;
+
   final List<Widget> _screens = [
     ContactsScreen(),
     CallsScreen(),
@@ -54,27 +57,65 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _requestDefaultDialer();
+    _initPermissions();
   }
 
-  /// 🔥 Requests the user to set this app as the default dialer
+  /// Request phone permissions
+  void _initPermissions() async {
+    bool granted = await CallService.requestPermissions();
+    setState(() {
+      _permissionsGranted = granted;
+    });
+
+    if (!granted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              'Phone permissions are required to make calls and run USSD.'),
+        ),
+      );
+    }
+  }
+
+  /// Request user to set this app as default dialer
   void _requestDefaultDialer() async {
-    try {
-      bool granted = await CallService.requestDefaultDialer();
-      if (!granted) {
-        // Optional: show a message if the user declines
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please set this app as the default dialer to make calls.')),
-        );
-      }
-    } catch (e) {
-      print('Error requesting default dialer: $e');
+    bool granted = await CallService.requestDefaultDialer();
+    setState(() {
+      _isDefaultDialer = granted;
+    });
+
+    if (!granted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              'You need to set this app as the default dialer to make calls.'),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('This app is now set as the default dialer.'),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Phone App'),
+        actions: [
+          if (_permissionsGranted && !_isDefaultDialer)
+            TextButton(
+              onPressed: _requestDefaultDialer,
+              child: const Text(
+                'Set Default Dialer',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+        ],
+      ),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

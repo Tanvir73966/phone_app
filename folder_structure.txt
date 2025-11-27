@@ -1,3 +1,4 @@
+
 lib/
 │
 ├── main.dart
@@ -11,11 +12,8 @@ lib/
 │   ├── contacts_screen.dart
 │   ├── calls_screen.dart
 │   ├── dial_pad_screen.dart
-│   └── incoming_call_overlay.dart
+│   
 ├── widgets/
 │   ├── contact_card.dart
 │   ├── call_log_card.dart
-│   └── dial_pad.dart
-├── utils/
-│   ├── permissions.dart
-│   └── google_contacts_sync.dart
+

@@ -38,4 +38,16 @@ class CallService {
       return false;
     }
   }
+
+  /// Requests phone permissions (CALL_PHONE and READ_PHONE_STATE)
+  static Future<bool> requestPermissions() async {
+    try {
+      final bool granted =
+          await _channel.invokeMethod("requestPermissions");
+      return granted;
+    } catch (e) {
+      print("Error requesting permissions: $e");
+      return false;
+    }
+  }
 }
